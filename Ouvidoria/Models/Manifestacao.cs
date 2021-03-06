@@ -7,6 +7,7 @@ namespace Ouvidoria.Models
     public class Manifestacao : Entidade
     {
         [Key]
+        [Display(Name = "Protocolo")]
         public long ManifestacaoId { get; set; }
         public long PerfilId { get; set; }
         public virtual Perfil Perfil { get; set; }
@@ -29,8 +30,7 @@ namespace Ouvidoria.Models
         [Required(ErrorMessage = "É necessário informar o campus do manifestante.")]
         [MinLength(6, ErrorMessage = "O campus deve conter no minímo 6 caracteres. EX: UGB-VR")]
         public string Campus { get; set; }
-        [Required(ErrorMessage = "É necessário informar o curso do manifestante.")]
-        [MinLength(3, ErrorMessage = "Para manter a coesão durante a troca de informação, o nome do curso aceita no mínimo 3 caracteres. EX: ADM")]
+        [Display(Name = "Curso (Opcional)")]
         public string Curso { get; set; }
         [Required(ErrorMessage = "É de EXTREMA importância que o assunto da manifestação seja informado.")]
         [MaxLength(100, ErrorMessage = "O assunto deve conter no máximo 100 caracteres.")]

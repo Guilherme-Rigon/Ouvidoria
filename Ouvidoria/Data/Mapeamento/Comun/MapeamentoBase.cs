@@ -9,7 +9,7 @@ namespace Ouvidoria.Data.Mapeamento.Comun
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
-            builder.Property(e => e.AtualizadoEm).ValueGeneratedOnAddOrUpdate();
+            builder.Property(e => e.AtualizadoEm).ValueGeneratedOnAdd().ValueGeneratedOnUpdate();
             builder.Property(e => e.CadastradoEm).ValueGeneratedOnAdd();
         }
     }

@@ -16,8 +16,8 @@ namespace Ouvidoria.Data.Mapeamento
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(r => r.Conteudo).HasColumnType("varchar").HasMaxLength(200);
-            builder.Property(r => r.CaminhoAnexo);
-            builder.Property(r => r.ContentType).HasColumnType("varchar").HasMaxLength(100);
+            builder.Property(r => r.CaminhoAnexo).IsRequired(false);
+            builder.Property(r => r.ContentType).HasColumnType("varchar").HasMaxLength(100).IsRequired(false);
         }
     }
 }

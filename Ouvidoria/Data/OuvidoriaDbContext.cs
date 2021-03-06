@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ouvidoria.Data.Mapeamento;
+using Ouvidoria.Data.Semeador;
 using Ouvidoria.Models;
 
 namespace Ouvidoria.Data
 {
-    public class OuvidorioDbContext : DbContext
+    public class OuvidoriaDbContext : DbContext
     {
-        public OuvidorioDbContext(DbContextOptions<OuvidorioDbContext> options) : base(options)
+        public OuvidoriaDbContext(DbContextOptions<OuvidoriaDbContext> options) : base(options)
         {
         }
         public DbSet<Manifestacao> Manifestacoes { get; set; }
@@ -22,6 +23,7 @@ namespace Ouvidoria.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SetorMapeamento).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ManifestacaoMapeamento).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(RespostaMapeamento).Assembly);
+            modelBuilder.InicializarTabelas();
         }
     }
 }

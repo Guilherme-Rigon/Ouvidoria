@@ -9,9 +9,11 @@ namespace Ouvidoria.Models
         [Key]
         public long SetorId { get; set; }
         [Required]
+        [Display(Name = "Setor")]
         public string Nome { get; set; }
         [Required]
         [EmailAddress]
+        [Display(Name = "Email do Setor")]
         public string Email { get; set; }
         public ICollection<Manifestacao> Manifestacoes { get; set; }
     }

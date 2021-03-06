@@ -12,16 +12,6 @@ namespace Ouvidoria.Data.Mapeamento
             base.Configure(builder);
             builder.HasKey(p => p.PerfilId);
             builder.Property(p => p.Nome).HasColumnType("varchar").HasMaxLength(200);
-
-            //Seeds
-
-            builder.HasData(
-                new Perfil { PerfilId = 1, Nome = "Aluno" },
-                new Perfil { PerfilId = 2, Nome = "Pais de Aluno" },
-                new Perfil { PerfilId = 3, Nome = "Professor" },
-                new Perfil { PerfilId = 4, Nome = "Funcionário" },
-                new Perfil { PerfilId = 5, Nome = "Visitante" }
-                );
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Ouvidoria.Data.Mapeamento
             builder.Property(m => m.Telefone).HasColumnType("varchar").HasMaxLength(20);
             builder.Property(m => m.Celular).HasColumnType("varchar").HasMaxLength(20);
             builder.Property(m => m.Campus).HasColumnType("varchar").HasMaxLength(100);
-            builder.Property(m => m.Curso).HasColumnType("varchar").HasMaxLength(100);
+            builder.Property(m => m.Curso).HasColumnType("varchar").HasMaxLength(100).IsRequired(false);
             builder.Property(m => m.Assunto).HasColumnType("varchar").HasMaxLength(100);
             builder.Property(m => m.Detalhe).HasColumnType("varchar").HasMaxLength(200);
         }

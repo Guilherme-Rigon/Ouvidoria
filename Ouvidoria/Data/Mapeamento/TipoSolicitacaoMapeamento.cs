@@ -12,15 +12,6 @@ namespace Ouvidoria.Data.Mapeamento
             base.Configure(builder);
             builder.HasKey(t => t.TipoSolicitacaoId);
             builder.Property(t => t.Nome).HasColumnType("varchar").HasMaxLength(200);
-
-            //Seeds
-
-            builder.HasData(
-                new TipoSolicitacao { TipoSolicitacaoId = 1, Nome = "Elogio" },
-                new TipoSolicitacao { TipoSolicitacaoId = 2, Nome = "Reclamação" },
-                new TipoSolicitacao { TipoSolicitacaoId = 3, Nome = "Sugestão" },
-                new TipoSolicitacao { TipoSolicitacaoId = 4, Nome = "Outro" }
-                );
         }
     }
 }

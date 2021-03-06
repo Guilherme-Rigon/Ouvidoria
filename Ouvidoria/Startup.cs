@@ -6,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ouvidoria.Data;
+using Ouvidoria.Servicos.EmailServico;
+using Ouvidoria.Servicos.EmailServico.Config;
+using Ouvidoria.Servicos.EmailServico.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +29,10 @@ namespace Ouvidoria
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<OuvidorioDbContext>(e =>
-                e.UseSqlServer(Configuration.GetConnectionString("OuvidoriaDb"), 
-                    m => m.MigrationsAssembly("Ouvidoria.Data")));
+            services.AddDbContext<OuvidoriaDbContext>(e =>
+                e.UseSqlServer(Configuration.GetConnectionString("OuvidoriaDb")));
+            services.Configure<EmailConfig>(Configuration.GetSection("EmailConfig"));
+            services.AddTransient<IEmailServico, EmailServico>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +59,7 @@ namespace Ouvidoria
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Manifestacao}/{action=Index}/{id?}");
             });
         }
     }

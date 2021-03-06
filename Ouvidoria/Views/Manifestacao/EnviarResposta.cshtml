@@ -1,0 +1,98 @@
+﻿@model Ouvidoria.Models.ViewModels.EnviarRespostaViewModel;
+@{
+    ViewData["Title"] = "EnviarResposta";
+}
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+<form asp-controller="Manifestacao" asp-action="EnviarResposta" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="Nome"></label>:
+                @Html.DisplayFor(model => model.Nome)
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>:
+                @Html.DisplayFor(model => model.Email)
+            </div>
+            <div class="form-group">
+                <label asp-for="Perfil.Nome"></label>:
+                @Html.DisplayFor(model => model.Perfil.Nome)
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoSolicitacao.Nome"></label>:
+                @Html.DisplayFor(model => model.TipoSolicitacao.Nome)
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefone"></label>:
+                @Html.DisplayFor(model => model.Telefone)
+            </div>
+            <div class="form-group">
+                <label asp-for="Celular"></label>:
+                @Html.DisplayFor(model => model.Celular)
+            </div>
+            <div class="form-group">
+                <label asp-for="Curso"></label>:
+                @Html.DisplayFor(model => model.Curso)
+            </div>
+            <div class="form-group">
+                <label asp-for="Campus"></label>:
+                @Html.DisplayFor(model => model.Campus)
+            </div>
+            <div class="form-group">
+                <label asp-for="Assunto"></label>:
+                @Html.DisplayFor(model => model.Assunto)
+            </div>
+            <div class="form-group">
+                <label asp-for="Detalhe"></label>:
+                @Html.DisplayFor(model => model.Detalhe)
+            </div>
+        </div>
+        <div class="col">
+            <h2>Referente ao Setor</h2>
+            <div class="form-group">
+                <label asp-for="Setor.Nome"></label>:
+                @Html.DisplayFor(model => model.Setor.Nome)
+            </div>
+            <div class="form-group">
+                <label asp-for="Setor.Email"></label>:
+                @Html.DisplayFor(model => model.Setor.Email)
+            </div>
+            <div class="form-group">
+                <input asp-for="EnviarCcAoSetor" />
+                <label asp-for="EnviarCcAoSetor"></label>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label>Resposta</label>
+                <textarea class="form-control" asp-for="Resposta.Conteudo"></textarea>
+                <span class="text-danger" asp-validation-for="Resposta.Conteudo"></span>
+            </div>
+            <div class="form-group">
+                <input type="file" name="anexo" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-outline-primary btn-block">Enviar</button>
+            </div>
+            <div class="form-group">
+                <a asp-controller="Manifestacao" asp-action="Index" class="btn btn-outline-danger btn-block">Voltar</a>
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.ManifestacaoId)
+    @Html.HiddenFor(model => model.Nome)
+    @Html.HiddenFor(model => model.Email)
+    @Html.HiddenFor(model => model.Telefone)
+    @Html.HiddenFor(model => model.Celular)
+    @Html.HiddenFor(model => model.Campus)
+    @Html.HiddenFor(model => model.Curso)
+    @Html.HiddenFor(model => model.Assunto)
+    @Html.HiddenFor(model => model.Detalhe)
+    @Html.HiddenFor(model => model.Setor.Nome)
+    @Html.HiddenFor(model => model.Setor.Email)
+    @Html.HiddenFor(model => model.Perfil.Nome)
+    @Html.HiddenFor(model => model.TipoSolicitacao.Nome)
+</form>

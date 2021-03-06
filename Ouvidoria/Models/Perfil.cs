@@ -9,6 +9,7 @@ namespace Ouvidoria.Models
         [Key]
         public long PerfilId { get; set; }
         [Required]
+        [Display(Name = "Perfil")]
         public string Nome { get; set; }
         public ICollection<Manifestacao> Manifestacoes { get; set; }
     }

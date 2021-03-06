@@ -9,6 +9,7 @@ namespace Ouvidoria.Models
         [Key]
         public long TipoSolicitacaoId { get; set; }
         [Required]
+        [Display(Name = "Tipo de Manifestação")]
         public string Nome { get; set; }
         public ICollection<Manifestacao> Manifestacoes { get; set; }
     }
