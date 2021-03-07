@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Anexos\" />
+    <Folder Include="wwwroot\Anexos\" />
   </ItemGroup>
 
 </Project>

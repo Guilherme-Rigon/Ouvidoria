@@ -1,0 +1,84 @@
+﻿@model Ouvidoria.Models.Manifestacao
+
+@{
+    ViewData["Title"] = "Cadastrar";
+}
+<br />
+<h5 class="text-center">Formulário de Manifestação</h5>
+<br />
+<hr />
+<div>
+    <form asp-action="Cadastrar">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Nome" class="control-label"></label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telefone" class="control-label"></label>
+                    <input asp-for="Telefone" class="form-control" />
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Celular" class="control-label"></label>
+                    <input asp-for="Celular" class="form-control" />
+                    <span asp-validation-for="Celular" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Campus" class="control-label"></label>
+                    <input asp-for="Campus" class="form-control" />
+                    <span asp-validation-for="Campus" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Curso" class="control-label"></label>
+                    <input asp-for="Curso" class="form-control" />
+                    <span asp-validation-for="Curso" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Assunto" class="control-label"></label>
+                    <input asp-for="Assunto" class="form-control" />
+                    <span asp-validation-for="Assunto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Perfil</label>
+                    <select asp-for="PerfilId" class="form-control" asp-items="ViewBag.PerfilId"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Tipo de Manifestação</label>
+                    <select asp-for="TipoSolicitacaoId" class="form-control" asp-items="ViewBag.TipoSolicitacaoId"></select>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Setor Citado</label>
+                    <select asp-for="SetorId" class="form-control" asp-items="ViewBag.SetorId"></select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Detalhe" class="control-label"></label>
+            <textarea asp-for="Detalhe" class="form-control"></textarea>
+            <span asp-validation-for="Detalhe" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label"></label>
+            <div class="input-group">
+                <div class="form-group" style="width: 50%">
+                    <input type="submit" value="Cadastrar" class="btn btn-primary btn-block" />
+                </div>
+                <div class="form-group" style="width: 50%">
+                    <a class="btn btn-danger btn-block" asp-action="Index">Voltar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

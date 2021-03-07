@@ -35,8 +35,9 @@ namespace Ouvidoria.Models
         [Required(ErrorMessage = "É de EXTREMA importância que o assunto da manifestação seja informado.")]
         [MaxLength(100, ErrorMessage = "O assunto deve conter no máximo 100 caracteres.")]
         public string Assunto { get; set; }
-        [Required(ErrorMessage = "É de EXTREMA importãncia que seja fornecido o maior número possível de detalhes sobre o motivo da manifestação.")]
+        [Required(ErrorMessage = "É de EXTREMA importãncia que seja fornecido o maior número possível de detalhes sobre o motivo da manifestação (Limite de 400 caracteres).")]
+        [MaxLength(400, ErrorMessage = "Tente explicar em menos de 400 caracteres.")]
         public string Detalhe { get; set; }
-        public ICollection<Resposta> Respostas { get; set; }
+        public Resposta Resposta { get; set; }
     }
 }

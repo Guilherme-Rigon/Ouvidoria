@@ -2,6 +2,7 @@
 using Ouvidoria.Servicos.EmailServico.Config;
 using Ouvidoria.Servicos.EmailServico.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -17,22 +18,19 @@ namespace Ouvidoria.Servicos.EmailServico
         {
             _emailConfig = emailConfig.Value;
         }
-        public async Task<bool> EnviarEmailAsync(string email, string assunto, string mensagem,
-            string emailCc = null, Anexo anexo = null)
+        public async Task<bool> EnviarEmailAsync(IList<string> emails, string assunto, string mensagem, 
+            Anexo anexo = null)
         {
             try
             {
-                string toEmail = email;
-
                 MailMessage mail = new MailMessage()
                 {
                     From = new MailAddress(_emailConfig.Email, "Ouvidoria UGB")
                 };
 
-                mail.To.Add(new MailAddress(toEmail));
-                if(emailCc != null)
+                foreach(string email in emails)
                 {
-                    mail.CC.Add(new MailAddress(emailCc));
+                    mail.To.Add(new MailAddress(email));
                 }
 
                 mail.Subject = "[OUVIDORIA] - " + assunto;

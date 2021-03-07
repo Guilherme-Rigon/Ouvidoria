@@ -10,7 +10,7 @@ using Ouvidoria.Data;
 namespace Ouvidoria.Data.Migrations
 {
     [DbContext(typeof(OuvidoriaDbContext))]
-    [Migration("20210306183350_Initial")]
+    [Migration("20210306220603_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,8 +99,8 @@ namespace Ouvidoria.Data.Migrations
                         {
                             ManifestacaoId = 1L,
                             Assunto = "Grande Disponibilidade de Livros",
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(8692),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(8687),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(9187),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(9183),
                             Campus = "UGB-VR",
                             Celular = "(24)99922-5355",
                             Detalhe = "É a maior e melhor biblioteca que vi entre as 3 unidades",
@@ -115,8 +115,8 @@ namespace Ouvidoria.Data.Migrations
                         {
                             ManifestacaoId = 2L,
                             Assunto = "Mensalidade",
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 516, DateTimeKind.Local).AddTicks(3478),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 516, DateTimeKind.Local).AddTicks(3473),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 755, DateTimeKind.Local).AddTicks(1491),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 755, DateTimeKind.Local).AddTicks(1486),
                             Campus = "UGB-VR",
                             Celular = "(24)99922-5355",
                             Detalhe = "Permitir débito em conta.",
@@ -157,36 +157,36 @@ namespace Ouvidoria.Data.Migrations
                         new
                         {
                             PerfilId = 1L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(4733),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 512, DateTimeKind.Local).AddTicks(3733),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(3585),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 752, DateTimeKind.Local).AddTicks(3274),
                             Nome = "Aluno"
                         },
                         new
                         {
                             PerfilId = 2L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6371),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6354),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4613),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4598),
                             Nome = "Pais de Aluno"
                         },
                         new
                         {
                             PerfilId = 3L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6395),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6394),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4642),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4640),
                             Nome = "Professor"
                         },
                         new
                         {
                             PerfilId = 4L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6397),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6396),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4644),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4643),
                             Nome = "Funcionário"
                         },
                         new
                         {
                             PerfilId = 5L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6400),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 513, DateTimeKind.Local).AddTicks(6399),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4647),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 753, DateTimeKind.Local).AddTicks(4646),
                             Nome = "Visitante"
                         });
                 });
@@ -222,7 +222,8 @@ namespace Ouvidoria.Data.Migrations
 
                     b.HasKey("RespostaId");
 
-                    b.HasIndex("ManifestacaoId");
+                    b.HasIndex("ManifestacaoId")
+                        .IsUnique();
 
                     b.ToTable("Respostas");
                 });
@@ -260,24 +261,24 @@ namespace Ouvidoria.Data.Migrations
                         new
                         {
                             SetorId = 1L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(6535),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(6530),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7779),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7774),
                             Email = "biblioteca@gmail.com",
                             Nome = "Biblioteca"
                         },
                         new
                         {
                             SetorId = 2L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(7941),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(7936),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(8671),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(8666),
                             Email = "centroatendimento@gmail.com",
                             Nome = "Centro de Atendimento"
                         },
                         new
                         {
                             SetorId = 3L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(7986),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(7985),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(8714),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(8713),
                             Email = "financeiro@gmail.com",
                             Nome = "Financeiro"
                         });
@@ -311,29 +312,29 @@ namespace Ouvidoria.Data.Migrations
                         new
                         {
                             TipoSolicitacaoId = 1L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(4612),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(4602),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(6671),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(6659),
                             Nome = "Elogio"
                         },
                         new
                         {
                             TipoSolicitacaoId = 2L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(5780),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(5774),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7299),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7294),
                             Nome = "Reclamação"
                         },
                         new
                         {
                             TipoSolicitacaoId = 3L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(5802),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(5801),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7318),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7317),
                             Nome = "Sugestão"
                         },
                         new
                         {
                             TipoSolicitacaoId = 4L,
-                            AtualizadoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(5805),
-                            CadastradoEm = new DateTime(2021, 3, 6, 15, 33, 49, 515, DateTimeKind.Local).AddTicks(5804),
+                            AtualizadoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7320),
+                            CadastradoEm = new DateTime(2021, 3, 6, 19, 6, 2, 754, DateTimeKind.Local).AddTicks(7319),
                             Nome = "Outro"
                         });
                 });
@@ -368,8 +369,8 @@ namespace Ouvidoria.Data.Migrations
             modelBuilder.Entity("Ouvidoria.Models.Resposta", b =>
                 {
                     b.HasOne("Ouvidoria.Models.Manifestacao", "Manifestacao")
-                        .WithMany("Respostas")
-                        .HasForeignKey("ManifestacaoId")
+                        .WithOne("Resposta")
+                        .HasForeignKey("Ouvidoria.Models.Resposta", "ManifestacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -378,7 +379,7 @@ namespace Ouvidoria.Data.Migrations
 
             modelBuilder.Entity("Ouvidoria.Models.Manifestacao", b =>
                 {
-                    b.Navigation("Respostas");
+                    b.Navigation("Resposta");
                 });
 
             modelBuilder.Entity("Ouvidoria.Models.Perfil", b =>

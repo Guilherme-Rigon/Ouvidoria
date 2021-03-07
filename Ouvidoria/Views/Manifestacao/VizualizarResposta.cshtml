@@ -1,0 +1,91 @@
+﻿@model Ouvidoria.Models.Resposta
+
+@{
+    ViewData["Title"] = "VizualizarResposta";
+}
+<style>
+    label{
+        font-weight: bold;
+    }
+</style>    
+<br />
+<h5 class="text-center">Manifestação aberta por @Model.Manifestacao.Nome</h5>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="Manifestacao.Nome"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Nome)
+            </div>
+            <div class="form-group">
+                <label asp-for="Manifestacao.Email"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Email)
+            </div>
+            <div class="form-group">
+                <label asp-for="Manifestacao.Telefone"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Telefone)
+            </div>
+            <div class="form-group">
+                <label asp-for="Manifestacao.Celular"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Celular)
+            </div>
+            <div class="form-group">
+                <label asp-for="Manifestacao.Curso"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Curso)
+            </div>
+            <div class="form-group">
+                <label asp-for="Manifestacao.Campus"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Campus)
+            </div>
+            <div class="form-group">
+                <label asp-for="Manifestacao.Assunto"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Assunto)
+            </div>
+            <div class="form-group">
+                <label asp-for="Manifestacao.Detalhe"></label>:
+                @Html.DisplayFor(model => model.Manifestacao.Detalhe)
+            </div>
+        </div>
+        <div class="col">
+            <h3 style="text-align:center">@Model.Manifestacao.TipoSolicitacao.Nome: @Model.Manifestacao.Assunto</h3>
+            <hr />
+            <div class="form-group">
+                <p class="bg-primary p-2 mt-2 mr-5 shadow-sm text-white float-left rounded">
+                    <b>@Model.Manifestacao.Nome</b>
+                    <br />
+                    @Model.Manifestacao.Detalhe
+                </p>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <p class="bg-success rounded p-2 mt-2 mr-5 shadow-sm text-white float-right">
+                    <b>Ouvidoria</b>
+                    <br />
+                    @Model.Conteudo
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label"></label>
+        <div class="input-group">
+            <div class="form-group" style="width: 50%">
+                <a class="btn btn-outline-danger btn-block" asp-action="Index">Voltar</a>
+            </div>
+            <div class="form-group" style="width: 50%">
+                @if (Model.CaminhoAnexo != null && Model.CaminhoAnexo != string.Empty)
+                {
+                    <a class="btn btn-outline-secondary btn-block" href="~/Anexos/@Model.CaminhoAnexo">Download do Anexo</a>
+                }
+                else
+                {
+                    <i>Nenhum arquivo foi anexado a essa resposta</i>
+                    <br />
+                }
+            </div>
+        </div>
+    </div>

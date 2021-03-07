@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ouvidoria.Data;
 using Ouvidoria.Models;
 using Ouvidoria.Models.ViewModels;
 using Ouvidoria.Servicos.EmailServico;
 using Ouvidoria.Servicos.EmailServico.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mime;
@@ -22,9 +25,33 @@ namespace Ouvidoria.Controllers
             _context = context;
             _emailServico = emailServico;
         }
+        [HttpGet]
         public IActionResult Index()
         {
-            return View(_context.Manifestacoes.Include(s => s.Setor).AsNoTracking().ToList());
+            return View(_context.Manifestacoes.Include(s => s.Setor).Include(r => r.Resposta).AsNoTracking()
+                .OrderBy(x => x.Resposta == null).ToList());
+        }
+        [HttpGet]
+        public IActionResult Cadastrar()
+        {
+            ViewBag.PerfilId = CarregarPerfis();
+            ViewBag.TipoSolicitacaoId = CarregarTipos();
+            ViewBag.SetorId = CarregarSetores();
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Cadastrar(Manifestacao model)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Manifestacoes.Add(model);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.PerfilId = CarregarPerfis();
+            ViewBag.TipoSolicitacaoId = CarregarTipos();
+            ViewBag.SetorId = CarregarSetores();
+            return View(model);
         }
 
         [HttpGet]
@@ -62,18 +89,20 @@ namespace Ouvidoria.Controllers
                 Anexo anexoEmail = null;
                 if (temAnexo)
                 {
-                    var caminho = Path.Combine("Data", "Anexos", anexo.FileName);
+                    string nomeUnico = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
+                    var caminho = Path.Combine("wwwroot", "Anexos", nomeUnico);
                     using (var stream = System.IO.File.Create(caminho))
                     {
                         await anexo.CopyToAsync(stream);
                     }
 
                     anexoEmail = new Anexo(caminho, anexo.ContentType);
-                    model.Resposta.CaminhoAnexo = caminho;
+                    model.Resposta.CaminhoAnexo = nomeUnico;
                     model.Resposta.ContentType = anexo.ContentType;
                 }
-                if (await _emailServico.EnviarEmailAsync(model.Email, model.Assunto, model.Resposta.Conteudo,
-                    model.EnviarCcAoSetor? model.Setor.Email : null,
+
+                var emails = model.EmailsIncluidos();
+                if (await _emailServico.EnviarEmailAsync(emails, model.Assunto, model.Resposta.Conteudo,
                     temAnexo? anexoEmail : null))
                 {
                     model.Resposta.ManifestacaoId = model.ManifestacaoId;
@@ -98,18 +127,55 @@ namespace Ouvidoria.Controllers
         [HttpGet]
         public IActionResult Deletar(long id)
         {
-            return View(_context.Manifestacoes.AsNoTracking().FirstOrDefault(x => x.ManifestacaoId == id));
+            var model = _context.Manifestacoes.Include(x => x.Resposta)
+                .AsNoTracking().FirstOrDefault(x => x.ManifestacaoId == id);
+            if(model.Resposta == null)
+            {
+                return View(model);
+            }
+            return RedirectToAction(nameof(Index));
         }
         [HttpPost]
         public async Task<IActionResult> Deletar(Manifestacao model)
         {
-            if (ModelState.IsValid)
+            if (_context.Respostas.AsNoTracking().Where(x => x.ManifestacaoId == model.ManifestacaoId).Count() == 0)
             {
-                _context.Manifestacoes.Remove(model);
+                _context.Manifestacoes.Remove(_context.Manifestacoes.Find(model.ManifestacaoId));
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(model);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public IActionResult VizualizarResposta(long id)
+        {
+            return View(_context.Respostas.Include(m => m.Manifestacao).ThenInclude(t => t.TipoSolicitacao)
+                .Where(x => x.ManifestacaoId == id)
+                .AsNoTracking().FirstOrDefault());
+        }
+        private IList<SelectListItem> CarregarPerfis()
+        {
+            return _context.Perfis.AsNoTracking().Select(p => new SelectListItem
+            {
+                Value = p.PerfilId.ToString(),
+                Text = p.Nome
+            }).ToList();
+        }
+        private IList<SelectListItem> CarregarTipos()
+        {
+            return _context.TiposSolicitacao.AsNoTracking().Select(t => new SelectListItem
+            {
+                Value = t.TipoSolicitacaoId.ToString(),
+                Text = t.Nome
+            }).ToList();
+        }
+        private IList<SelectListItem> CarregarSetores()
+        {
+            return _context.Setores.AsNoTracking().Select(s => new SelectListItem
+            {
+                Value = s.SetorId.ToString(),
+                Text = s.Nome
+            }).ToList();
         }
     }
 }

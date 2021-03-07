@@ -12,7 +12,7 @@ namespace Ouvidoria.Data.Mapeamento
             base.Configure(builder);
             builder.HasKey(r => r.RespostaId);
 
-            builder.HasOne(r => r.Manifestacao).WithMany(m => m.Respostas).HasForeignKey(r => r.ManifestacaoId)
+            builder.HasOne(r => r.Manifestacao).WithOne(m => m.Resposta).HasForeignKey<Resposta>(r => r.ManifestacaoId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(r => r.Conteudo).HasColumnType("varchar").HasMaxLength(200);

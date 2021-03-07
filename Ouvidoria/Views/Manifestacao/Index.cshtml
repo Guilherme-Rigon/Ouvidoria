@@ -6,6 +6,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css"/>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css" integrity="sha512-jNfYp+q76zAGok++m0PjqlsP7xwJSnadvhhsL7gzzfjbXTqqOq+FmEtplSXGVI5uzKq7FrNimWaoc8ubP7PT5w==" crossorigin="anonymous" />
+<div class="text-right">
+    <a asp-controller="Manifestacao" asp-action="Cadastrar" class="btn btn-primary">
+        <i class="bi bi-pencil"></i>&nbsp;Anotar Manifestação
+    </a>
+</div>
 <div class="col-sm-8">
     <img style="vertical-align:middle" class="img-fluid w-25 h25" src="~/img/logougb.png" alt="logougb">
     <span class="h2 text-primary">&nbsp; Gestão de Ouvidoria</span>
@@ -37,7 +42,17 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ManifestacaoId)
+                    <p style="display:none">@((item.Resposta != null)? "0" : "1")</p>
+                    @if (item.Resposta != null)
+                    {
+                        <a href="/Manifestacao/VizualizarResposta/@item.ManifestacaoId">
+                            @Html.DisplayFor(modelItem => item.ManifestacaoId)
+                        </a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ManifestacaoId)
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Nome)
@@ -52,9 +67,9 @@
                     @Html.DisplayFor(modelItem => item.CadastradoEm)
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-action="EnviarResposta" asp-route-id="@item.ManifestacaoId"><i class="bi bi-pencil"></i></a>
-                    <a class="btn btn-info" asp-controller="Manifestacao" asp-action="Encaminhar" asp-route-id="@item.ManifestacaoId"><i class="bi bi-cursor"></i></a>
-                    <a class="btn btn-danger" asp-controller="Manifestacao" asp-action="Deletar" asp-route-id="@item.ManifestacaoId"><i class="bi bi-trash"></i></a>
+                    <a class="btn btn-primary @((item.Resposta != null)? "disabled" : "")" asp-action="EnviarResposta" asp-route-id="@item.ManifestacaoId"><i class="bi bi-pencil"></i></a>
+                    <a class="btn btn-info @((item.Resposta != null)? "disabled" : "")" asp-controller="Manifestacao" asp-action="Encaminhar" asp-route-id="@item.ManifestacaoId"><i class="bi bi-cursor"></i></a>
+                    <a class="btn btn-danger @((item.Resposta != null)? "disabled" : "")" asp-controller="Manifestacao" asp-action="Deletar" asp-route-id="@item.ManifestacaoId"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>
         }

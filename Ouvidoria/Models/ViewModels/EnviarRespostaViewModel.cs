@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ouvidoria.Models.ViewModels
 {
@@ -21,7 +22,19 @@ namespace Ouvidoria.Models.ViewModels
         public Setor Setor { get; set; }
         public TipoSolicitacao TipoSolicitacao { get; set; }
         public Perfil Perfil { get; set; }
-        [Display(Name = "Enviar Cc ao Setor mencionado?")]
-        public bool EnviarCcAoSetor { get; set; }
+        [Display(Name = "Manifestante")]
+        public bool IncluirManifestante { get; set; }
+        [Display(Name = "Setor")]
+        public bool IncluirSetor { get; set; }
+
+        public IList<string> EmailsIncluidos()
+        {
+            IList<string> emails = new List<string>();
+            if (IncluirManifestante)
+                emails.Add(Email);
+            if (IncluirSetor)
+                emails.Add(Setor.Email);
+            return emails;
+        }
     }
 }
