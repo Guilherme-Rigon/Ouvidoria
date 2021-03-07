@@ -7,6 +7,6 @@ namespace Ouvidoria.Servicos.EmailServico.Interfaces
 {
     public interface IEmailServico
     {
-        Task<bool> EnviarEmailAsync(IList<string> emails, string assunto, string mensagem, Anexo anexo = null);
+        Task<bool> EnviarEmailAsync(string assunto, string mensagem, Anexo anexo = null, params string[] emails);
     }
 }

@@ -1,17 +1,19 @@
-﻿@model Ouvidoria.Models.ViewModels.EnviarRespostaViewModel;
+﻿@model Ouvidoria.Models.Manifestacao
+
 @{
-    ViewData["Title"] = "EnviarResposta";
+    ViewData["Title"] = "Encaminhar";
 }
+
 <style>
     .custom-file-input:lang(en) ~ .custom-file-label::after {
         content: "Procurar";
     }
 </style>
 <br />
-<h3 class="text-center">Responder Manifestação</h3>
+<h3 class="text-center">Encaminhar Manifestação</h3>
 <br />
 <hr />
-<form asp-controller="Manifestacao" asp-action="EnviarResposta" enctype="multipart/form-data">
+<form asp-controller="Manifestacao" asp-action="Encaminhar" method="post" asp-route-id="@Model.ManifestacaoId" enctype="multipart/form-data">
     <div class="row">
         <div class="col">
             <h4 class="text-center">Manifestante</h4>
@@ -81,26 +83,26 @@
                 @Html.HiddenFor(model => model.Setor.Email)
             </div>
             <div class="form-group">
-                <label class="text-center font-weight-bold">Incluir na Resposta: </label>
-                &nbsp;
-                <label>
-                    <input asp-for="IncluirManifestante" />
-                    <span>Manifestante</span>
-                </label>
-                &nbsp;
-                <label>
-                    <input asp-for="IncluirSetor" />
-                    <span>Setor</span>
-                </label>
-                <br />
-                <span class="text-danger">@ViewData["EmailDestinatarioErro"]</span>
-            </div>
-            <div class="form-group">
                 <label class="font-weight-bold">Resposta</label>
-                <textarea class="form-control" asp-for="Resposta.Conteudo"></textarea>
-                <span class="text-danger" asp-validation-for="Resposta.Conteudo"></span>
+                @if (Model?.Resposta?.Conteudo == string.Empty || Model?.Resposta?.Conteudo == null)
+                {
+                <textarea class="form-control text-left" style="min-height: 280px;" id="@Html.IdFor(m => m.Resposta.Conteudo)" name="@Html.NameFor(m => m.Resposta.Conteudo)">No dia @Model.CadastradoEm.ToShortDateString() a pessoa que atende pelo nome de @Model.Nome abriu uma manifestação referente ao seu setor, tendo como assunto o @Model.Assunto, pedimos encarecidamente que entre em contato o mais rapido possível com o manifestante através dos contatos fornecidos pelo mesmo:
+Celular - @Model.Celular;
+Telefone Fixo - @Model.Telefone;
+E-mail - @Model.Email;
+Abaixo também segue os detalhes fornecidos pelo autor da manifestação:
+
+@Model.Detalhe
+
+Atenciosamente</textarea>
+                }
+                else
+                {
+                    <textarea class="form-control text-left" style="min-height: 280px;" asp-for="Resposta.Conteudo"></textarea>
+                }
+                <span asp-validation-for="Resposta.Conteudo" class="text-danger"></span>
             </div>
-            <br />
+            <hr />
             <div class="form-group">
                 <div class="custom-file">
                     <input name="anexo" type="file" class="custom-file-input" id="customFileInput">
@@ -108,11 +110,15 @@
                 </div>
                 <label class="text-center" style="width:100%" id="CustomFileName"></label>
             </div>
-            <hr />
-            <div class="form-group">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label"></label>
+        <div class="input-group">
+            <div class="form-group" style="width: 50%">
                 <button type="submit" class="btn btn-outline-primary btn-block">Enviar</button>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="width: 50%">
                 <a asp-controller="Manifestacao" asp-action="Index" class="btn btn-outline-danger btn-block">Voltar</a>
             </div>
         </div>

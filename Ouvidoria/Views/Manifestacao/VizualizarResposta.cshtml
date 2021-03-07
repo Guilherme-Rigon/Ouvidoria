@@ -9,7 +9,7 @@
     }
 </style>    
 <br />
-<h5 class="text-center">Manifestação aberta por @Model.Manifestacao.Nome</h5>
+<h5 class="text-center">Manifestação aberta por <b>@Model.Manifestacao.Nome</b> referente ao setor <b>@Model.Manifestacao.Setor.Nome</b></h5>
     <hr />
     <div class="row">
         <div class="col">
@@ -83,7 +83,7 @@
                 }
                 else
                 {
-                    <i>Nenhum arquivo foi anexado a essa resposta</i>
+                    <i class="text-center btn-block">Nenhum arquivo foi anexado a essa resposta</i>
                     <br />
                 }
             </div>

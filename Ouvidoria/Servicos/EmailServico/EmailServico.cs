@@ -18,8 +18,8 @@ namespace Ouvidoria.Servicos.EmailServico
         {
             _emailConfig = emailConfig.Value;
         }
-        public async Task<bool> EnviarEmailAsync(IList<string> emails, string assunto, string mensagem, 
-            Anexo anexo = null)
+        public async Task<bool> EnviarEmailAsync(string assunto, string mensagem, 
+            Anexo anexo = null, params string[] emails)
         {
             try
             {
@@ -28,13 +28,18 @@ namespace Ouvidoria.Servicos.EmailServico
                     From = new MailAddress(_emailConfig.Email, "Ouvidoria UGB")
                 };
 
+                if(emails.Length == 0)
+                {
+                    return false;
+                }
+
                 foreach(string email in emails)
                 {
                     mail.To.Add(new MailAddress(email));
                 }
 
                 mail.Subject = "[OUVIDORIA] - " + assunto;
-                mail.Body = mensagem;
+                mail.Body = mensagem.Replace("\n", "<br />");
                 mail.IsBodyHtml = true;
                 mail.Priority = MailPriority.High;
 
@@ -52,9 +57,8 @@ namespace Ouvidoria.Servicos.EmailServico
 
                 return true;
             }
-            catch(Exception e)
+            catch
             {
-                throw e;
                 return false;
             }
         }

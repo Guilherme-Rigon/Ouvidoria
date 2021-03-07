@@ -89,26 +89,24 @@ namespace Ouvidoria.Controllers
                 Anexo anexoEmail = null;
                 if (temAnexo)
                 {
-                    string nomeUnico = Guid.NewGuid().ToString() + Path.GetExtension(anexo.FileName);
-                    var caminho = Path.Combine("wwwroot", "Anexos", nomeUnico);
-                    using (var stream = System.IO.File.Create(caminho))
-                    {
-                        await anexo.CopyToAsync(stream);
-                    }
-
-                    anexoEmail = new Anexo(caminho, anexo.ContentType);
-                    model.Resposta.CaminhoAnexo = nomeUnico;
+                    anexoEmail = SalvarArquivo(anexo);
+                    model.Resposta.CaminhoAnexo = anexoEmail.NomeUnico;
                     model.Resposta.ContentType = anexo.ContentType;
                 }
 
-                var emails = model.EmailsIncluidos();
-                if (await _emailServico.EnviarEmailAsync(emails, model.Assunto, model.Resposta.Conteudo,
-                    temAnexo? anexoEmail : null))
+                var emails = model.EmailsIncluidos().ToArray();
+                if (await _emailServico.EnviarEmailAsync(model.Assunto, model.Resposta.Conteudo,
+                    temAnexo? anexoEmail : null, emails))
                 {
                     model.Resposta.ManifestacaoId = model.ManifestacaoId;
                     _context.Respostas.Add(model.Resposta);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    if (emails.Length == 0)
+                        ViewData["EmailDestinatarioErro"] = "Deve haver ao menos um destinatário incluido na resposta.";
                 }
             }
             return View(model);
@@ -116,12 +114,38 @@ namespace Ouvidoria.Controllers
         [HttpGet]
         public IActionResult Encaminhar(long id)
         {
-            return View(_context.Manifestacoes.AsNoTracking().FirstOrDefault(x => x.ManifestacaoId == id));
+            var model = _context.Manifestacoes.Include(x => x.Perfil).Include(x => x.Resposta).Include(x => x.TipoSolicitacao)
+                .Include(x => x.Setor).Where(x => x.ManifestacaoId == id).AsNoTracking().FirstOrDefault();
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Encaminhar(Manifestacao model)
+        public async Task<IActionResult> Encaminhar(Manifestacao model, IFormFile anexo)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var temAnexo = anexo?.Length > 0;
+                Anexo anexoEmail = null;
+                if (temAnexo)
+                {
+                    anexoEmail = SalvarArquivo(anexo);
+                    model.Resposta.CaminhoAnexo = anexoEmail.NomeUnico;
+                    model.Resposta.ContentType = anexo.ContentType;
+                }
+                
+                if (await _emailServico.EnviarEmailAsync(model.Assunto, model.Resposta.Conteudo,
+                    temAnexo ? anexoEmail : null, model.Setor.Email))
+                {
+                    model.Resposta.Conteudo = model.Resposta.Conteudo;
+                    _context.Manifestacoes.Update(model);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(VizualizarResposta), new { id = model.ManifestacaoId });
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            return View(model);
         }
 
         [HttpGet]
@@ -150,6 +174,7 @@ namespace Ouvidoria.Controllers
         public IActionResult VizualizarResposta(long id)
         {
             return View(_context.Respostas.Include(m => m.Manifestacao).ThenInclude(t => t.TipoSolicitacao)
+                .Include(x => x.Manifestacao).ThenInclude(x => x.Setor)
                 .Where(x => x.ManifestacaoId == id)
                 .AsNoTracking().FirstOrDefault());
         }
@@ -176,6 +201,19 @@ namespace Ouvidoria.Controllers
                 Value = s.SetorId.ToString(),
                 Text = s.Nome
             }).ToList();
+        }
+        private static Anexo SalvarArquivo(IFormFile arquivo)
+        {
+            string nomeUnico = Guid.NewGuid().ToString() + Path.GetExtension(arquivo.FileName);
+            var caminho = Path.Combine("wwwroot", "Anexos", nomeUnico);
+            Anexo anexo = new Anexo(nomeUnico, caminho, arquivo.ContentType);
+
+            using (var stream = System.IO.File.Create(caminho))
+            {
+                arquivo.CopyTo(stream);
+            }
+
+            return anexo;
         }
     }
 }

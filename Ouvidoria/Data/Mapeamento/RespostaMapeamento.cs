@@ -15,7 +15,7 @@ namespace Ouvidoria.Data.Mapeamento
             builder.HasOne(r => r.Manifestacao).WithOne(m => m.Resposta).HasForeignKey<Resposta>(r => r.ManifestacaoId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(r => r.Conteudo).HasColumnType("varchar").HasMaxLength(200);
+            builder.Property(r => r.Conteudo).HasColumnType("varchar").HasMaxLength(600);
             builder.Property(r => r.CaminhoAnexo).IsRequired(false);
             builder.Property(r => r.ContentType).HasColumnType("varchar").HasMaxLength(100).IsRequired(false);
         }

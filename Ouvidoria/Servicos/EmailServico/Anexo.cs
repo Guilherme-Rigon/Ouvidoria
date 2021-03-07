@@ -9,11 +9,13 @@ namespace Ouvidoria.Servicos.EmailServico
 {
     public class Anexo
     {
-        public Anexo(string caminho, string contentType)
+        public Anexo(string nomeUnico ,string caminho, string contentType)
         {
+            NomeUnico = nomeUnico;
             Caminho = caminho;
             ContentType = new ContentType(contentType);
         }
+        public string NomeUnico { get; set; }
         public string Caminho { get; set; }
         public ContentType ContentType { get; set; }
     }
