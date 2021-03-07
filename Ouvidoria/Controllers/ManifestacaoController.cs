@@ -101,7 +101,7 @@ namespace Ouvidoria.Controllers
                     model.Resposta.ManifestacaoId = model.ManifestacaoId;
                     _context.Respostas.Add(model.Resposta);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(VizualizarResposta), new { id = model.ManifestacaoId });
                 }
                 else
                 {
